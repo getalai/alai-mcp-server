@@ -11,8 +11,7 @@ Alai is an **AI presentation maker** and the fastest way to create high-quality,
 - **Export anywhere** - Download as PowerPoint (PPTX), PDF, or shareable link
 - **Professional themes** - Designer-level templates for any occasion
 - **Speaker notes** - AI-generated talking points for each slide
-- **Nano Banana Pro** - Multiple slide generation modes for different visual styles
-- **Image slides** - Theme-aware image slide generation that matches your deck's style
+- **Nano Banana Pro Image Slides** - Theme-aware image slide generation that matches your deck's visual style
 - **Edit and iterate** - Make targeted changes to text, icons, and images on existing slides
 
 ## Use Cases
