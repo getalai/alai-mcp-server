@@ -4,12 +4,12 @@ AI presentation maker and slide generator for Claude, Cursor, and MCP clients. C
 
 ## What is Alai?
 
-Alai is an **AI presentation maker** trained on 1000+ pitch decks and professional presentations. It's the fastest way to create beautiful slides without design skills.
+Alai is an **AI presentation maker** and the fastest way to create beautiful slides without design skills.
 
 - **Generate slides from text** - Turn notes, markdown, URLs, or documents into polished presentations
 - **Beautify existing slides** - Restyle and improve your PowerPoint presentations with AI
 - **Export anywhere** - Download as PowerPoint (PPTX), PDF, or shareable link
-- **12 professional themes** - Designer-level templates for any occasion
+- **Professional themes** - Designer-level templates for any occasion
 - **Speaker notes** - AI-generated talking points for each slide
 
 ## Use Cases
@@ -107,6 +107,10 @@ Pass via header:
 - OBSIDIAN_FLOW
 - MIDNIGHT_EMBER
 - AURORA_FLUX
+- NANO
+- BANANA
+- PRO
+- IMAGE_SLIDES
 
 ## Configuration
 
