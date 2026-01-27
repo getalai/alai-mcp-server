@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "alai-presentations": {
+      "url": "https://slides-api.getalai.com/mcp/",
+      "transport": "streamable-http",
+      "headers": {
+        "api-key": "${API_KEY}"
+      }
+    }
+  }
+}

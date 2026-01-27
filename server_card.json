@@ -1,0 +1,180 @@
+{
+  "serverInfo": {
+    "name": "Alai Presentations",
+    "version": "1.0.0"
+  },
+  "tools": [
+    {
+      "name": "ping",
+      "description": "Verify your API key and return your user ID. Use this to test authentication.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "generate_presentation",
+      "description": "Generate a presentation from text content. Returns a generation_id to poll. Poll get_generation_status until status is 'completed'.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input_text": {
+            "type": "string",
+            "description": "Content to transform into slides (text, markdown, or notes)"
+          },
+          "title": {
+            "type": "string",
+            "description": "Presentation title",
+            "default": "AI Generated Presentation"
+          },
+          "theme_id": {
+            "type": "string",
+            "description": "Visual theme - AMETHYST_LIGHT, NEBULA_DARK, FLAT_WHITE, DESERT_BLOOM, LAPIS_DAWN, EMERALD_FOREST, COSMIC_THREAD, DONUT, OAK, OBSIDIAN_FLOW, MIDNIGHT_EMBER, AURORA_FLUX",
+            "default": "AMETHYST_LIGHT"
+          },
+          "slide_range": {
+            "type": "string",
+            "description": "Target slides - 'auto', '1', '2-5', '6-10', '11-15', '16-20'",
+            "default": "auto"
+          },
+          "additional_instructions": {
+            "type": "string",
+            "description": "Extra guidance for the AI"
+          },
+          "include_ai_images": {
+            "type": "boolean",
+            "description": "Whether to generate AI images for slides",
+            "default": true
+          }
+        },
+        "required": ["input_text"]
+      }
+    },
+    {
+      "name": "get_generation_status",
+      "description": "Check the status of an async operation (presentation, slide, export, or transcript). Status values: pending, in_progress, completed, failed. Poll every 2-5 seconds. Most operations complete in 30-120 seconds.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "generation_id": {
+            "type": "string",
+            "description": "The generation ID to check status for"
+          }
+        },
+        "required": ["generation_id"]
+      }
+    },
+    {
+      "name": "get_presentations",
+      "description": "List all presentations owned by the authenticated user. Returns a list of presentations with their IDs and titles.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "create_slide",
+      "description": "Add a new slide to an existing presentation. Returns a generation_id to poll for completion.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "presentation_id": {
+            "type": "string",
+            "description": "ID of the presentation to add the slide to"
+          },
+          "slide_context": {
+            "type": "string",
+            "description": "Content for this slide"
+          },
+          "additional_instructions": {
+            "type": "string",
+            "description": "Extra guidance for the AI"
+          },
+          "slide_order": {
+            "type": "integer",
+            "description": "Position in presentation (0-indexed). Omit to append at end."
+          }
+        },
+        "required": ["presentation_id", "slide_context"]
+      }
+    },
+    {
+      "name": "delete_slide",
+      "description": "Delete a slide from a presentation.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "presentation_id": {
+            "type": "string",
+            "description": "ID of the presentation"
+          },
+          "slide_id": {
+            "type": "string",
+            "description": "ID of the slide to delete"
+          }
+        },
+        "required": ["presentation_id", "slide_id"]
+      }
+    },
+    {
+      "name": "export_presentation",
+      "description": "Export a presentation to PDF, PPTX, or get a shareable link. Returns a generation_id to poll. Download URLs available when completed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "presentation_id": {
+            "type": "string",
+            "description": "ID of the presentation to export"
+          },
+          "formats": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of formats - 'link', 'pdf', 'ppt'. Defaults to ['link']."
+          }
+        },
+        "required": ["presentation_id"]
+      }
+    },
+    {
+      "name": "generate_transcripts",
+      "description": "Generate speaker notes/transcripts for slides in a presentation. Returns a generation_id to poll. Transcripts available when completed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "presentation_id": {
+            "type": "string",
+            "description": "ID of the presentation"
+          },
+          "slide_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Specific slides to process. Omit to process all slides."
+          }
+        },
+        "required": ["presentation_id"]
+      }
+    },
+    {
+      "name": "delete_presentation",
+      "description": "Permanently delete a presentation and all its slides.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "presentation_id": {
+            "type": "string",
+            "description": "ID of the presentation to delete"
+          }
+        },
+        "required": ["presentation_id"]
+      }
+    }
+  ],
+  "resources": [],
+  "prompts": []
+}

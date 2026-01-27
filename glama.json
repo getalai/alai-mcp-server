@@ -1,0 +1,20 @@
+{
+  "name": "alai-presentations",
+  "description": "AI-powered presentation generation API. Create beautiful presentations from text, manage slides, and export to PDF/PPTX.",
+  "url": "https://slides-api.getalai.com/mcp/",
+  "transport": "streamable-http",
+  "repository": "https://github.com/getalai/alai-mcp-server",
+  "homepage": "https://getalai.com",
+  "author": {
+    "name": "Alai",
+    "url": "https://getalai.com"
+  },
+  "categories": ["Workplace & Productivity", "Art & Culture"],
+  "config": {
+    "api-key": {
+      "type": "string",
+      "description": "Your Alai API key from getalai.com",
+      "required": true
+    }
+  }
+}
