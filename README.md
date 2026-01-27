@@ -115,4 +115,4 @@ Pass via header:
 
 ## License
 
-Proprietary - See [getalai.com](https://getalai.com) for terms of service.
+MIT License - See [LICENSE](LICENSE) file for details.
