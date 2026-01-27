@@ -1,4 +1,6 @@
 {
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["krishna-cant", "getalai"],
   "name": "alai-presentations",
   "description": "AI-powered presentation generation API. Create beautiful presentations from text, manage slides, and export to PDF/PPTX.",
   "url": "https://slides-api.getalai.com/mcp/",
