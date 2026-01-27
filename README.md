@@ -1,6 +1,33 @@
-# Alai Presentations MCP Server
+# Alai - AI Presentation Maker MCP Server
 
-AI-powered presentation generation API. Create beautiful presentations from text, manage slides, and export to multiple formats.
+AI presentation maker and slide generator for Claude, Cursor, and MCP clients. Create designer-level presentations, pitch decks, and slides from text. Export to PowerPoint (PPTX) and PDF.
+
+## What is Alai?
+
+Alai is an **AI presentation maker** trained on 1000+ pitch decks and professional presentations. It's the fastest way to create beautiful slides without design skills.
+
+- **Generate slides from text** - Turn notes, markdown, URLs, or documents into polished presentations
+- **Beautify existing slides** - Restyle and improve your PowerPoint presentations with AI
+- **Export anywhere** - Download as PowerPoint (PPTX), PDF, or shareable link
+- **12 professional themes** - Designer-level templates for any occasion
+- **Speaker notes** - AI-generated talking points for each slide
+
+## Use Cases
+
+- **Pitch decks** - Create investor-ready presentations from your notes
+- **Sales presentations** - Generate compelling slides for prospects
+- **Meeting notes to slides** - Transform your notes into shareable decks
+- **PowerPoint beautification** - Restyle existing slides with professional themes
+- **Marketing presentations** - Build product and campaign decks quickly
+
+## Features
+
+- Generate designer-level presentations from text, markdown, or meeting notes
+- AI-powered slide beautification and restyling
+- Export to PowerPoint (PPTX) or PDF
+- Professional pitch deck themes
+- Add and remove slides from existing presentations
+- Generate speaker notes automatically
 
 ## Server URL
 
@@ -15,14 +42,6 @@ Requires an API key from [getalai.com](https://getalai.com).
 Pass via header:
 - `api-key: sk_your_key`
 - `Authorization: Bearer sk_your_key`
-
-## Features
-
-- Generate presentations from text, markdown, or notes
-- Add and remove slides from existing presentations
-- Export to PDF, PPTX, or shareable link
-- Generate speaker notes automatically
-- 12 professional themes to choose from
 
 ## Available Tools
 
