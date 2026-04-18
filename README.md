@@ -1,5 +1,7 @@
 # Alai - AI Presentation Maker MCP Server
 
+[![Alai MCP server](https://glama.ai/mcp/servers/getalai/Alai/badges/card.svg)](https://glama.ai/mcp/servers/getalai/Alai)
+
 AI presentation maker and slide generator for Claude, Cursor, and MCP clients. Create designer-level presentations, pitch decks, and slides from text. Export to PowerPoint (PPTX) and PDF.
 
 ## What is Alai?
