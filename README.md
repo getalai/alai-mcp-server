@@ -40,11 +40,24 @@ https://slides-api.getalai.com/mcp/
 
 ## Authentication
 
-Requires an API key from [getalai.com](https://getalai.com).
+The server accepts either a static API key or an OAuth 2.1 bearer token on the same endpoint.
 
-Pass via header:
+### API Key
+
+Get a key from [getalai.com](https://getalai.com) and pass it in one of these headers:
+
 - `api-key: sk_your_key`
 - `Authorization: Bearer sk_your_key`
+
+### OAuth 2.1 with Dynamic Client Registration
+
+The server implements RFC 9728 Protected Resource Metadata and delegates authorization to Supabase, which supports RFC 7591 Dynamic Client Registration and PKCE (S256). Spec-compliant MCP clients (e.g. Claude Desktop, MCP Inspector) can auto-discover the flow:
+
+```
+GET https://slides-api.getalai.com/.well-known/oauth-protected-resource
+```
+
+The response's `authorization_servers` entry points at the Supabase authorization server, whose `/.well-known/oauth-authorization-server` document advertises the `registration_endpoint`, `authorization_endpoint`, and `token_endpoint`. After the authorization code + PKCE flow, the client sends `Authorization: Bearer <jwt>` to the MCP endpoint.
 
 ## Available Tools
 
@@ -53,8 +66,10 @@ Pass via header:
 | `ping` | Verify your API key and return your user ID |
 | `generate_presentation` | Create a presentation from text content |
 | `get_generation_status` | Check async operation status |
+| `get_themes` | List themes available to the authenticated user |
+| `get_vibes` | List vibes (visual styles) available to the authenticated user |
 | `get_presentations` | List all your presentations |
-| `create_slide` | Add a slide to an existing presentation |
+| `create_slide` | Add a slide (classic or creative) to an existing presentation |
 | `delete_slide` | Remove a slide from a presentation |
 | `export_presentation` | Export to PDF, PPTX, or shareable link |
 | `generate_transcripts` | Generate speaker notes for slides |
@@ -70,14 +85,25 @@ Pass via header:
 
 ### Generate a Presentation
 
+Call `get_themes` and `get_vibes` first to discover the IDs available to your account, then pass them in:
+
 ```json
 {
   "input_text": "Benefits of AI in the workplace: increased productivity, enhanced creativity, improved efficiency",
   "title": "AI in the Workplace",
-  "theme_id": "NEBULA_DARK",
-  "slide_range": "2-5"
+  "theme_id": "<id from get_themes>",
+  "vibe_id": "<id from get_vibes>",
+  "slide_range": "2-5",
+  "include_ai_images": true,
+  "num_creative_variants": 1,
+  "total_variants_per_slide": 1,
+  "image_ids": [],
+  "export_formats": ["link"],
+  "language": "English"
 }
 ```
+
+Only `input_text` is required. `num_creative_variants` must be 0–2 (set to ≥1 when using `vibe_id`). `total_variants_per_slide` must be 1–4. `export_formats` accepts `"link"`, `"pdf"`, `"ppt"`.
 
 ### Check Generation Status
 
@@ -98,18 +124,18 @@ Pass via header:
 
 ## Available Themes
 
-- AMETHYST_LIGHT
-- NEBULA_DARK
-- FLAT_WHITE
-- DESERT_BLOOM
-- LAPIS_DAWN
-- EMERALD_FOREST
-- COSMIC_THREAD
-- DONUT
-- OAK
-- OBSIDIAN_FLOW
-- MIDNIGHT_EMBER
-- AURORA_FLUX
+Call `get_themes` to discover the themes available to your account (returns theme IDs and display names). A handful of built-in legacy theme names you can pass directly as `theme_id`:
+
+- `AURORA_FLUX`
+- `MIDNIGHT_EMBER`
+- `EMERALD_FOREST`
+- `DESERT_BLOOM`
+- `DONUT`
+- `OAK`
+- `PRISMATICA`
+- `SIMPLE_LIGHT`
+- `SIMPLE_DARK`
+- `CYBERPUNK`
 
 ## Configuration
 
