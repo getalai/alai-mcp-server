@@ -143,6 +143,21 @@ Call `get_themes` to discover the themes available to your account (returns them
 
 ### For Claude Desktop / MCP Clients
 
+OAuth-capable clients (Claude Desktop, MCP Inspector, Cursor, etc.) can use just the URL — the client will discover and run the OAuth 2.1 + DCR flow on first connect:
+
+```json
+{
+  "mcpServers": {
+    "alai-presentations": {
+      "url": "https://slides-api.getalai.com/mcp/",
+      "transport": "streamable-http"
+    }
+  }
+}
+```
+
+If you prefer to skip OAuth and use a static API key, add a header block:
+
 ```json
 {
   "mcpServers": {
