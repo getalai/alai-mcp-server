@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.getalai/alai-mcp-server",
+  "name": "io.github.krishna-cant/alai-mcp-server",
   "description": "Generate, edit, and export AI presentations to PDF, PPTX, or a shareable link.",
   "repository": {
     "url": "https://github.com/getalai/alai-mcp-server",
