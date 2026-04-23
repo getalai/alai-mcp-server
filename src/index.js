@@ -1,14 +1,12 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js";
-import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const PORT = Number(process.env.PORT || 3000);
 const REMOTE_MCP_URL =
   process.env.ALAI_MCP_URL || "https://slides-api.getalai.com/mcp/";
-const API_KEY = process.env.ALAI_API_KEY || "";
+const API_KEY = process.env.ALAI_API_KEY || process.env.api_key || "";
 
 function createRemoteHeaders() {
   if (!API_KEY) {
@@ -23,7 +21,7 @@ function createRemoteHeaders() {
 
 async function callRemoteTool(name, args) {
   const client = new Client(
-    { name: "alai-mcp-wrapper", version: "1.0.1" },
+    { name: "alai-mcp-wrapper", version: "1.0.2" },
     { capabilities: {} },
   );
   const transport = new StreamableHTTPClientTransport(new URL(REMOTE_MCP_URL), {
@@ -47,12 +45,13 @@ async function callRemoteTool(name, args) {
 function authGuidance() {
   return API_KEY
     ? null
-    : "Set ALAI_API_KEY to forward tool calls to the hosted Alai MCP endpoint. Introspection works without credentials so Glama can still inspect the server.";
+    : "Set ALAI_API_KEY or api_key to forward tool calls to the hosted Alai MCP endpoint. Tool introspection works without credentials.";
 }
 
 function normalizeError(error) {
   const message =
     error instanceof Error ? error.message : "Unknown upstream error";
+
   return {
     content: [
       {
@@ -368,11 +367,11 @@ function registerTools(server) {
   );
 }
 
-function buildServer() {
+async function main() {
   const server = new McpServer(
     {
       name: "com.getalai/presentations",
-      version: "1.0.1",
+      version: "1.0.2",
     },
     {
       capabilities: {
@@ -382,60 +381,12 @@ function buildServer() {
   );
 
   registerTools(server);
-  return server;
+
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
 }
 
-const app = createMcpExpressApp();
-
-app.post("/mcp", async (req, res) => {
-  const server = buildServer();
-
-  try {
-    const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined,
-      enableJsonResponse: true,
-    });
-
-    await server.connect(transport);
-    await transport.handleRequest(req, res, req.body);
-
-    res.on("close", () => {
-      transport.close().catch(() => {});
-      server.close().catch(() => {});
-    });
-  } catch (error) {
-    console.error("Error handling MCP request:", error);
-
-    if (!res.headersSent) {
-      res.status(500).json({
-        jsonrpc: "2.0",
-        error: {
-          code: -32603,
-          message: "Internal server error",
-        },
-        id: null,
-      });
-    }
-  }
-});
-
-app.get("/mcp", (_req, res) => {
-  res.status(405).set("Allow", "POST").send("Method Not Allowed");
-});
-
-app.get("/health", (_req, res) => {
-  res.json({
-    ok: true,
-    remote: REMOTE_MCP_URL,
-    hasApiKey: Boolean(API_KEY),
-  });
-});
-
-app.listen(PORT, (error) => {
-  if (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  }
-
-  console.log(`Alai MCP wrapper listening on port ${PORT}`);
+main().catch((error) => {
+  console.error("Fatal MCP server error:", error);
+  process.exit(1);
 });
