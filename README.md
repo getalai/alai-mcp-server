@@ -40,6 +40,30 @@ Alai is an **AI presentation maker** and the fastest way to create high-quality,
 https://slides-api.getalai.com/mcp/
 ```
 
+## Docker / Glama
+
+This repository includes a containerized MCP wrapper so Glama can build, run, and inspect the server automatically.
+
+The wrapper exposes the same Alai tools locally and forwards tool calls to the hosted Alai MCP endpoint:
+
+- `ALAI_MCP_URL` - optional override for the upstream MCP URL
+- `ALAI_API_KEY` - optional API key used when forwarding tool calls upstream
+
+The container starts and responds to MCP introspection without credentials, which is enough for Glama's automated inspection. Real tool execution requires a valid `ALAI_API_KEY`.
+
+### Run locally with Docker
+
+```bash
+docker build -t alai-mcp-server .
+docker run --rm -p 3000:3000 alai-mcp-server
+```
+
+With upstream credentials:
+
+```bash
+docker run --rm -p 3000:3000 -e ALAI_API_KEY=sk_your_key alai-mcp-server
+```
+
 ## Authentication
 
 The server accepts either a static API key or an OAuth 2.1 bearer token on the same endpoint.

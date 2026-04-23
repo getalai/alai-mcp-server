@@ -1,0 +1,18 @@
+{
+  "name": "alai-mcp-server",
+  "version": "1.0.1",
+  "description": "Glama-deployable MCP wrapper for Alai presentations.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "express": "^5.1.0",
+    "zod": "^4.1.12"
+  }
+}
